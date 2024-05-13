@@ -9,18 +9,17 @@ Created on Fri Apr 26 22:37:58 2024
 import FastRDF as frdf
 import numpy as np
 
-
-# Sim files correspond to a mixture of ethanol at 70%mol
+# %% Prepare the coordination files from GROMACS
+# In this case, simulation files correspond to a mixture of ethanol at 70%mol.
 gro_file = 'example/sim.gro'
 traj_file = 'example/sim.trr'
 
 # %% Generate the residues dictionary
-
+# This dictionary is used to identify the names and numbers of residues.
 d_residues = frdf.parse_gro(gro_file)
 
 # %% Compute the pairs of atoms
-
-# Pairs of oxygen of water (SOL-OW) and hydrogen of water (SOL-HW1 and SOL-HW2)
+# Pairs of oxygen of water (SOL-OW) and hydrogen of water (SOL-HW1 and SOL-HW2).
 pairs1a = frdf.gen_pairs('SOL-OW', 'SOL-HW1', d_residues)
 pairs1a = pairs1a['inter']
 pairs1b = frdf.gen_pairs('SOL-OW', 'SOL-HW2', d_residues)
@@ -33,7 +32,6 @@ pairs2 = frdf.gen_pairs('SOL-OW', 'ETH-H08', d_residues)
 pairs2 = pairs2['inter']
 
 # %% Compute the RDF
-
 rdf1 = frdf.compute_rdf(traj_file, gro_file, pairs1)
 rdf2 = frdf.compute_rdf(traj_file, gro_file, pairs2)
 
